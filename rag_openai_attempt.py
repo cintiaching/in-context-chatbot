@@ -18,7 +18,7 @@ https://learn.microsoft.com/en-us/azure/ai-services/cognitive-services-virtual-n
 os.environ["OPENAI_API_TYPE"] = "azure"
 # os.environ["OPENAI_API_VERSION"] = "2023-05-15"
 os.environ["AZURE_OPENAI_ENDPOINT"] = "https://llm-openai-rnd.openai.azure.com/"
-os.environ["OPENAI_API_KEY"] = "779e0e901686462ebd0fe68a05878c8e"
+os.environ["OPENAI_API_KEY"] = ""
 
 # init model
 llm = ChatOpenAI(
