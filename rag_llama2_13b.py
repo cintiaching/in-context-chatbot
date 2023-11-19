@@ -20,8 +20,7 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 # input model_url="https://huggingface.co/TheBloke/Llama-2-13B-chat-GGUF/resolve/main/llama-2-13b-chat.Q5_K_M.gguf"
 # if the model is not stored locally https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama
 llm = LlamaCpp(
-    model_url="https://huggingface.co/TheBloke/Llama-2-13B-chat-GGUF/resolve/main/llama-2-13b-chat.Q5_K_M.gguf",
-    # model_path=model_path,
+    model_path=model_path,
     n_gpu_layers=n_gpu_layers,  # Number of layers to offload to GPU (-ngl). If -1, all layers are offloaded.
     n_ctx=2048,  # Context size, text limits for responses
     f16_kv=True,

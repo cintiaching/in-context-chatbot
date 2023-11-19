@@ -1,10 +1,11 @@
 import streamlit as st
-from rag_llama2_13b import init_qa_chain, ask
+from rag_llama2_13b import init_qa_chain
 
-st.title("🦜🔗 Quickstart App")
+st.title("Staff Handbook Chatbot")
+st.text("The New Staff Handbook Chatbot using Llama2 13B.")
 
 path = "./data/Employment+Handbook_0000020125.pdf"
-qa_chain_full_book = init_qa_chain(
+qa_chain = init_qa_chain(
     path,
     chunk_size=500,
     chunk_overlap=20,
@@ -14,11 +15,11 @@ qa_chain_full_book = init_qa_chain(
 
 
 def generate_response(input_text):
-    st.info(ask(input_text, qa_chain_full_book))
+    st.info(qa_chain.run(input_text))
 
 
-with st.form('my_form'):
-    text = st.text_area('Enter text:', 'Tell me about Sick Leave')
-    submitted = st.form_submit_button('Submit')
+with st.form("my_form"):
+    text = st.text_area("Enter text:", "Tell me about Sick Leave")
+    submitted = st.form_submit_button("Submit")
     if submitted:
         generate_response(text)
