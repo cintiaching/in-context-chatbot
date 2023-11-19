@@ -90,7 +90,6 @@ langchain==0.0.337
 langchainhub==0.1.14
 langdetect==1.0.9
 langsmith==0.0.65
-llama-index==0.9.3.post1
 llama_cpp_python==0.2.18
 lxml==4.9.3
 MarkupSafe==2.1.3
@@ -161,7 +160,7 @@ rapidfuzz==3.5.2
 referencing==0.31.0
 regex==2023.10.3
 replicate==0.20.0
-requests==2.31.0
+requests
 requests-oauthlib==1.3.1
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
@@ -190,13 +189,13 @@ traitlets==5.13.0
 transformers==4.35.2
 typer==0.9.0
 types-python-dateutil==2.8.19.14
-types-requests==2.31.0.10
+types-requests
 typing-inspect==0.9.0
 typing_extensions==4.8.0
 tzdata==2023.3
 unstructured==0.10.30
 uri-template==1.3.0
-urllib3==2.1.0
+urllib3
 uvicorn==0.24.0.post1
 uvloop==0.19.0
 watchfiles==0.21.0
@@ -209,3 +208,4 @@ widgetsnbextension==4.0.9
 wrapt==1.16.0
 yarl==1.9.2
 zipp==3.17.0
+streamlit~=1.28.2
