@@ -1,12 +1,16 @@
 import streamlit as st
-from rag_llama2_13b import init_qa_chain
+from llama2.rag_llama2_13b import init_llama2_13b_llm, init_qa_chain
 
 st.title("Staff Handbook Chatbot")
 st.text("The New Staff Handbook Chatbot using Llama2 13B.")
 
+# TODO: file upload option https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
 path = "./data/Employment+Handbook_0000020125.pdf"
+
+llm = init_llama2_13b_llm()
 qa_chain = init_qa_chain(
     path,
+    llm,
     chunk_size=500,
     chunk_overlap=20,
     prompt=None,
