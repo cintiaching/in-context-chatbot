@@ -1,15 +1,16 @@
 import streamlit as st
-from document_chatbot.rag_llama2_13b import init_llama2_13b_llm, init_qa_chain
+from document_chatbot.llama2 import init_llama2_13b_llm, init_qa_chain
+from document_chatbot.utils import DOCUMENT_PATH
 
-st.title("Staff Handbook Chatbot")
-st.text("The New Staff Handbook Chatbot using Llama2 13B.")
+
+def generate_response(input_text):
+    st.info(qa_chain.run(input_text))
+
 
 # TODO: file upload option https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
-path = "./data/Employment+Handbook_0000020125.pdf"
-
 llm = init_llama2_13b_llm()
 qa_chain = init_qa_chain(
-    path,
+    DOCUMENT_PATH,
     llm,
     chunk_size=500,
     chunk_overlap=20,
@@ -17,9 +18,8 @@ qa_chain = init_qa_chain(
     doc_type="pdf",
 )
 
-
-def generate_response(input_text):
-    st.info(qa_chain.run(input_text))
+st.title("Document Chatbot")
+st.text("The New Staff Handbook Chatbot using Llama2 13B.")
 
 
 with st.form("my_form"):
