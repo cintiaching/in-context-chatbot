@@ -12,7 +12,7 @@ from langchain.chains import RetrievalQA
 
 from langchain.document_loaders import PyPDFLoader
 
-from utils import LLAMA2_13B_MODEL_PATH
+from document_chatbot.utils import LLAMA2_13B_MODEL_PATH
 
 
 def init_llama2_13b_llm(n_gpu_layers=1000, *kwarg):
