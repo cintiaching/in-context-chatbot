@@ -13,3 +13,18 @@ def init_openai_model(model_name="gpt-3.5-turbo", temperature=0, max_tokens=256,
         *kwarg,
     )
     return llm
+
+
+class TokenCounter:
+    def __init__(self):
+        self._count = 0
+
+    def __add__(self, other):
+        self._count += other
+        return self
+
+    def add(self, other):
+        self._count += other
+
+    def total_token_used(self):
+        return self._count

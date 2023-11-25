@@ -3,16 +3,21 @@ import tempfile
 import pathlib
 import streamlit as st
 from document_chatbot.llama2_model import init_llama2_13b_llm
-from document_chatbot.openai_model import init_openai_model
+from document_chatbot.openai_model import init_openai_model, TokenCounter
 from document_chatbot.rag import init_qa_chain
 
 
 def generate_response(input_text):
-    st.info(qa_chain.run(input_text))
+    response = qa_chain.run(input_text)
+    st.info(response)
+    return response
 
 
 st.title("Document Chatbot")
 st.text("The Document Chatbot using Llama2 13B or gpt-3.5-turbo.\nPlease select a model and upload a docx/pdf files.")
+
+# keep track of token used
+token_counter = TokenCounter()
 
 # select model
 option = st.selectbox(
@@ -59,6 +64,17 @@ if uploaded_file is not None:
 
     with st.form("my_form"):
         text = st.text_area("Ask a question:", "")
+        input_token = llm.get_num_tokens(text)
+        token_counter.add(input_token)
         submitted = st.form_submit_button("Submit")
         if submitted:
-            generate_response(text)
+            response = generate_response(text)
+            output_token = llm.get_num_tokens(response)
+            token_counter.add(output_token)
+
+            st.text(
+                f"Token used for input: {input_token}\n"
+                f"Token used for output: {output_token}\n"
+                f"Total Token used for session: {token_counter.total_token_used()}\n"
+            )
+
