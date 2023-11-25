@@ -1,5 +1,5 @@
 import streamlit as st
-from llama2.rag_llama2_13b import init_llama2_13b_llm, init_qa_chain
+from document_chatbot.rag_llama2_13b import init_llama2_13b_llm, init_qa_chain
 
 st.title("Staff Handbook Chatbot")
 st.text("The New Staff Handbook Chatbot using Llama2 13B.")
