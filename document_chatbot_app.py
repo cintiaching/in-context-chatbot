@@ -1,10 +1,14 @@
-import os
 import tempfile
 import pathlib
 import streamlit as st
 from document_chatbot.llama2_model import init_llama2_13b_llm
 from document_chatbot.openai_model import init_openai_model, TokenCounter
 from document_chatbot.rag import init_qa_chain
+from dotenv import load_dotenv
+
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 def generate_response(input_text):
@@ -27,13 +31,7 @@ with st.sidebar:
     )
 
     if option == "gpt-3.5-turbo":
-        os.environ["OPENAI_API_TYPE"] = "azure"
-        os.environ["OPENAI_API_VERSION"] = "2023-05-15"
-        os.environ["OPENAI_API_KEY"] = st.text_input("Enter OPENAI_API_KEY:", type="password")
-        os.environ["AZURE_OPENAI_ENDPOINT"] = st.text_input("Enter AZURE_OPENAI_ENDPOINT:", type="password")
-
-        if os.environ.get("OPENAI_API_KEY", None) is not None:
-            llm = init_openai_model()
+        llm = init_openai_model()
 
     elif option == "Llama2 13B":
         llm = init_llama2_13b_llm()
