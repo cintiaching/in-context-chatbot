@@ -6,17 +6,17 @@ from langchain.embeddings import GPT4AllEmbeddings
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
-from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import PyPDFium2Loader
 
 
-def init_qa_chain(path, llm, chunk_size=500, chunk_overlap=20, prompt=None, doc_type="docx"):
+def init_vectorstore(path, chunk_size=500, chunk_overlap=20, doc_type="docx"):
     # load document
     if doc_type == "docx":
         loader = UnstructuredWordDocumentLoader(
             path, strategy="fast",
         )
     elif doc_type == "pdf":
-        loader = PyPDFLoader(path)
+        loader = PyPDFium2Loader(path)
     else:
         raise ValueError(f"{doc_type} format is not supported")
 
@@ -28,6 +28,10 @@ def init_qa_chain(path, llm, chunk_size=500, chunk_overlap=20, prompt=None, doc_
 
     # store the splits to look up later
     vectorstore = Chroma.from_documents(documents=all_splits, embedding=GPT4AllEmbeddings())
+    return vectorstore
+
+
+def init_qa_chain(llm, vectorstore, prompt=None):
     retriever = vectorstore.as_retriever()
 
     # Prompt

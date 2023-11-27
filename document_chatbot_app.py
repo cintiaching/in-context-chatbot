@@ -3,9 +3,8 @@ import pathlib
 import streamlit as st
 from document_chatbot.llama2_model import init_llama2_13b_llm
 from document_chatbot.openai_model import init_openai_model, TokenCounter
-from document_chatbot.rag import init_qa_chain
+from document_chatbot.rag import init_qa_chain, init_vectorstore
 from dotenv import load_dotenv
-
 
 # Load environment variables from .env file
 load_dotenv()
@@ -52,13 +51,13 @@ with st.sidebar:
         else:
             raise ValueError(f"The format of uploaded file is not supported")
 
+        vectorstore = init_vectorstore(
+            str(tmp_file_path), chunk_size=500, chunk_overlap=20, doc_type=doc_type,
+        )
         qa_chain = init_qa_chain(
-            str(tmp_file_path),
             llm,
-            chunk_size=500,
-            chunk_overlap=20,
+            vectorstore,
             prompt=None,
-            doc_type=doc_type,
         )
 
 with st.form("my_form"):
