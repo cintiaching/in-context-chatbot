@@ -1,8 +1,7 @@
 import os
 
-LLAMA2_13B_MODEL_PATH = os.environ.get(
-    "LLAMA2_13B_MODEL_PATH",
-    "/Users/cintiaching/Library/Caches/llama_index/models/llama-2-13b-chat.Q5_K_M.gguf",
+BASE_DIR = os.environ.get(
+    "BASE_DIR",
+    ".",
 )
-
-DOCUMENT_PATH = os.environ.get("DOCUMENT_PATH", "./data/document.docx")
+LLAMA2_13B_MODEL_PATH = os.path.join(BASE_DIR, "models", "llama-2-13b-chat.Q5_K_M.gguf")
