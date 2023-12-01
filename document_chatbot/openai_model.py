@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+
 def init_openai_model(model_name="gpt-3.5-turbo", temperature=0, max_tokens=256, *kwarg):
     callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
     llm = AzureChatOpenAI(
