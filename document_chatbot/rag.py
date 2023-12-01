@@ -40,7 +40,7 @@ def init_qa_chain(llm, vectorstore, prompt=None):
             "You are an assistant for question-answering tasks. "
             "Use the following pieces of retrieved context to answer the question. "
             "If you don't know the answer, just say that you don't know. don't try to make up an answer"
-            "Keep the answer concise, try to use exact wording from context that is relevant."
+            "try to use exact wording from context that is relevant, Keep the answer concise but give details"
             "<</SYS>> \nQuestion: {question} \nContext: {context} \nAnswer: [/INST]"
         )
     else:
