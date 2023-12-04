@@ -31,7 +31,7 @@ elif option == "Llama2 13B":
 
 if option is not None:
     staff_qa_chatbot = StaffQAChatbot(
-        doc_path="../../data/New Staff Handbook Q&A.docx",
+        doc_path="data/New Staff Handbook Q&A.docx",
         model_name=model_name,
     )
     qa_chain = staff_qa_chatbot.qa_chain()

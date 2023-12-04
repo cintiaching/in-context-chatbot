@@ -45,13 +45,22 @@ class DocumentChatbot(ABC):
 
     def get_prompt(self):
         if self.prompt_msg is None:
-            prompt = PromptTemplate.from_template(
-                "You are an assistant for question-answering tasks. "
-                "Use the following pieces of retrieved context to answer the question. "
-                "If you don't know the answer, just say that you don't know. don't try to make up an answer"
-                "try to use exact wording from context that is relevant, Keep the answer concise but give details"
-                "<</SYS>> \nQuestion: {question} \nContext: {context} \nAnswer: [/INST]"
-            )
+            if self.model_name == "llama2_13b":
+                prompt = PromptTemplate.from_template(
+                    "You are an assistant for question-answering tasks. "
+                    "Use the following pieces of retrieved context to answer the question. "
+                    "If you don't know the answer, just say that you don't know. don't try to make up an answer"
+                    "try to use exact wording from context that is relevant, Keep the answer concise but give details"
+                    "<</SYS>> \nQuestion: {question} \nContext: {context} \nAnswer: [/INST]"
+                )
+            elif self.model_name == "openai":
+                prompt = PromptTemplate.from_template(
+                    "You are an assistant for question-answering tasks. "
+                    "Use the following pieces of retrieved context to answer the question. "
+                    "Don't try to make up an answer"
+                    "Plz use exact wording from context that is relevant, and give details"
+                    "\nQuestion: {question} \nContext: {context} "
+                )
         else:
             prompt = PromptTemplate.from_template(self.prompt_msg)
         return prompt
