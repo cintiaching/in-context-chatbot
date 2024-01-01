@@ -7,9 +7,10 @@ from document_chatbot.utils import LLAMA2_13B_MODEL_PATH
 
 def init_llama2_13b_llm(
         model_path=None,
-        n_gpu_layers=1000,
+        n_gpu_layers=0,
         n_ctx=2048,
-        verbose=False,
+        n_batch=8,
+        verbose=True,
         *kwarg
 ):
     if model_path is None:
@@ -24,6 +25,7 @@ def init_llama2_13b_llm(
         # f16_kv MUST set to True, otherwise you will run into problem after a couple of calls
         # Use half-precision for key/value cache.
         f16_kv=True,
+        n_batch=n_batch,
         callback_manager=callback_manager,
         verbose=verbose,
         *kwarg
