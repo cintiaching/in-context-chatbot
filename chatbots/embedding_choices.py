@@ -3,7 +3,7 @@ from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain.embeddings import HuggingFaceEmbeddings
 
 
-def best_embeddings():
+def get_best_embeddings():
     """Highest rank in MTEB English leaderboard (https://huggingface.co/spaces/mteb/leaderboard) and implemented here"""
     return bge_large_en_v1_5()
 
