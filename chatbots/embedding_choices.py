@@ -33,7 +33,7 @@ def all_MiniLM_L12_v2():
     return embeddings
 
 
-def instruct_embedding(query_instruction="Represent the query for retrieval: ")
+def instruct_embedding(query_instruction="Represent the query for retrieval: "):
     """instruct embedding models"""
     embeddings = HuggingFaceInstructEmbeddings(
         query_instruction=query_instruction,
