@@ -74,6 +74,9 @@ elif doc_option == "Upload Your Document":
 
 # chatbot interface
 if model_option is not None and doc_option is not None:
+    st.text("----------------------------------------------------------------------------------")
+    if st.button("Clear History 🧹", type="primary"):
+        st.session_state.messages = []
     # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -84,7 +87,7 @@ if model_option is not None and doc_option is not None:
             st.markdown(message["content"])
 
     # Accept user input
-    if prompt := st.chat_input("What is up?"):
+    if prompt := st.chat_input("What is this document about?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
