@@ -1,6 +1,6 @@
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
-from document_chatbot.rag import DocumentChatbot
+from chatbots.rag import DocumentChatbot
 
 
 class StaffQAChatbot(DocumentChatbot):

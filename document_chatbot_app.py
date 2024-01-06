@@ -1,9 +1,9 @@
 import tempfile
 import pathlib
 import streamlit as st
-from document_chatbot.llama2_model import init_llama2_13b_llm
-from document_chatbot.openai_model import init_openai_model, TokenCounter
-from document_chatbot.rag import init_qa_chain, init_vectorstore
+from chatbots.llama2_model import init_llama2_13b_llm
+from chatbots.openai_model import init_openai_model, TokenCounter
+from chatbots.rag import init_qa_chain, init_vectorstore
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
