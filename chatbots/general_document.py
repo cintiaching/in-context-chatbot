@@ -1,7 +1,7 @@
 from langchain.vectorstores import Chroma
 from chatbots.rag import DocumentChatbot
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chatbots.embedding_choices import get_best_embeddings
+from chatbots.embedding_choices import all_MiniLM_L12_v2
 
 
 class GeneralChatbot(DocumentChatbot):
@@ -11,7 +11,7 @@ class GeneralChatbot(DocumentChatbot):
         return all_splits
 
     def get_vectorstore(self):
-        embeddings = get_best_embeddings()
+        embeddings = all_MiniLM_L12_v2()
         vectorstore = Chroma.from_documents(self.splits, embeddings)
         return vectorstore
 

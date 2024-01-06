@@ -1,7 +1,9 @@
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from chromadb.errors import InvalidDimensionException
+
 from chatbots.rag import DocumentChatbot
-from chatbots.embedding_choices import get_best_embeddings
+from chatbots.embedding_choices import all_MiniLM_L12_v2
 
 
 class StaffHandbookChatbot(DocumentChatbot):
@@ -11,8 +13,12 @@ class StaffHandbookChatbot(DocumentChatbot):
         return all_splits
 
     def get_vectorstore(self):
-        embeddings = get_best_embeddings()
-        vectorstore = Chroma.from_documents(self.splits, embeddings)
+        embeddings = all_MiniLM_L12_v2()
+        try:
+            vectorstore = Chroma.from_documents(self.splits, embeddings)
+        except InvalidDimensionException:
+            Chroma().delete_collection()
+            vectorstore = Chroma.from_documents(self.splits, embeddings)
         return vectorstore
 
     def get_retriever(self):
