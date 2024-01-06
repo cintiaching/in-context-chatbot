@@ -6,7 +6,7 @@ from document_chatbot.staff_q_and_a.staff_q_and_a import StaffQAChatbot
 # refer to https://docs.giskard.ai/en/stable/getting_started/quickstart/quickstart_llm.html
 
 staff_qa_chatbot = StaffQAChatbot(
-    doc_path="data/New Staff Handbook Q&A.docx",
+    doc_path="../data/New Staff Handbook Q&A.docx",
     model_name="llama2_13b",
 )
 qa_chain = staff_qa_chatbot.qa_chain()
