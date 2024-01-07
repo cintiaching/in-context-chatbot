@@ -5,8 +5,13 @@ from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, Embeddi
 
 
 class GeneralChatbot(DocumentChatbot):
+    def __init__(self, doc_path: str, chunk_size=2000, chunk_overlap=100):
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        super().__init__(doc_path)
+
     def get_splits(self):
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap)
         all_splits = text_splitter.split_documents(self.docs)
         return all_splits
 
