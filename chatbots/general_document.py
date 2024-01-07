@@ -1,7 +1,7 @@
 from langchain.vectorstores import Chroma
 from chatbots.rag import DocumentChatbot
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chatbots.embedding_choices import all_MiniLM_L12_v2
+from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 class GeneralChatbot(DocumentChatbot):
@@ -11,7 +11,9 @@ class GeneralChatbot(DocumentChatbot):
         return all_splits
 
     def get_vectorstore(self):
-        embeddings = all_MiniLM_L12_v2()
+        # using the fastest embedding model for demo
+        config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
+        embeddings = EmbeddingFactory.create_embedding(config.model_name)
         vectorstore = Chroma.from_documents(self.splits, embeddings)
         return vectorstore
 

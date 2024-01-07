@@ -1,6 +1,6 @@
 from langchain.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
 from chatbots.rag import DocumentChatbot
+from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 class StaffQAChatbot(DocumentChatbot):
@@ -26,9 +26,9 @@ class StaffQAChatbot(DocumentChatbot):
         return answers, metadatas
 
     def get_vectorstore(self):
-        embeddings_model_name = "sentence-transformers/all-MiniLM-L6-v2"
-        embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
-
+        # using the fastest embedding model for demo
+        config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
+        embeddings = EmbeddingFactory.create_embedding(config.model_name)
         vectorstore = Chroma(
             collection_name="q_and_a",
             embedding_function=embeddings,
