@@ -57,6 +57,6 @@ def get_best_embedding_model():
     embeddings = EmbeddingFactory.create_embedding(
         config.model_name,
         config.model_kwargs,
-        config.encode_kwargs
+        config.encode_kwargs,
     )
     return embeddings
