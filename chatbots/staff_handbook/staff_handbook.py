@@ -15,7 +15,7 @@ class StaffHandbookChatbot(DocumentChatbot):
     def get_vectorstore(self):
         # using the fastest embedding model for demo
         config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
-        embeddings = EmbeddingFactory.create_embedding(config.model_name)
+        embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         try:
             vectorstore = Chroma.from_documents(self.splits, embeddings)
         except InvalidDimensionException:

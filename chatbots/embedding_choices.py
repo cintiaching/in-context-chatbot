@@ -13,6 +13,10 @@ class EmbeddingModels(Enum):
 
 class EmbeddingConfig:
     def __init__(self, model_name, model_kwargs=None, encode_kwargs=None):
+        if model_kwargs is None:
+            model_kwargs = {"device": "cpu"}
+        if encode_kwargs is None:
+            encode_kwargs = {"normalize_embeddings": True}
         self.model_name = model_name
         self.model_kwargs = model_kwargs
         self.encode_kwargs = encode_kwargs
@@ -20,23 +24,23 @@ class EmbeddingConfig:
 
 class EmbeddingFactory:
     @staticmethod
-    def create_embedding(model_name, model_kwargs=None, encode_kwargs=None, **kwargs):
+    def create_embedding(model_name, model_kwargs, encode_kwargs, **kwargs):
         # Add more cases if needed for different embedding models
         if model_name == EmbeddingModels.BGE_LARGE_EN_V1_5:
             return HuggingFaceBgeEmbeddings(
-                model_name=model_name,
+                model_name=model_name.value,
                 model_kwargs=model_kwargs,
                 encode_kwargs=encode_kwargs
             )
         elif model_name == EmbeddingModels.ALL_MINILM_L6_V2:
             return HuggingFaceEmbeddings(
-                model_name=model_name,
+                model_name=model_name.value,
                 model_kwargs=model_kwargs,
                 encode_kwargs=encode_kwargs,
             )
         elif model_name == EmbeddingModels.ALL_MINILM_L12_V2:
             return HuggingFaceEmbeddings(
-                model_name=model_name,
+                model_name=model_name.value,
                 model_kwargs=model_kwargs,
                 encode_kwargs=encode_kwargs,
             )
@@ -50,7 +54,7 @@ class EmbeddingFactory:
 
 def get_best_embedding_model():
     """Returns the best embedding model based on the MTEB leaderboard."""
-    model_name = EmbeddingModels.BGE_LARGE_EN_V1_5.value
+    model_name = EmbeddingModels.BGE_LARGE_EN_V1_5
     model_kwargs = {"device": "cpu"}
     encode_kwargs = {"normalize_embeddings": True}
     config = EmbeddingConfig(model_name, model_kwargs, encode_kwargs)

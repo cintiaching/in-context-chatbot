@@ -5,11 +5,11 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
 from langchain.document_loaders import PyPDFium2Loader
-from chatbots.model_choices import LLMConfig, LLMFactory
+from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
 
 
 class DocumentChatbot(ABC):
-    def __init__(self, doc_path: str, prompt_msg: str = None, model_name: str = "llama2_13b"):
+    def __init__(self, model_name: LLMs, doc_path: str, prompt_msg: str = None):
         self.model_name = model_name
         self.doc_path = doc_path
         self.prompt_msg = prompt_msg
@@ -39,7 +39,7 @@ class DocumentChatbot(ABC):
 
     def get_prompt(self):
         if self.prompt_msg is None:
-            if self.model_name == "llama2_13b":
+            if self.model_name == LLMs.LLAMA2_13B:
                 prompt = PromptTemplate.from_template(
                     "You are an assistant for question-answering tasks. "
                     "Use the following pieces of retrieved context to answer the question. "
@@ -47,7 +47,7 @@ class DocumentChatbot(ABC):
                     "try to use exact wording from context that is relevant, Keep the answer concise but give details"
                     "<</SYS>> \nQuestion: {question} \nContext: {context} \nAnswer: [/INST]"
                 )
-            elif self.model_name == "openai":
+            elif self.model_name == LLMs.GPT_3_PT_5_TURBO:
                 prompt = PromptTemplate.from_template(
                     "You are an assistant for question-answering tasks. "
                     "Use the following pieces of retrieved context to answer the question. "

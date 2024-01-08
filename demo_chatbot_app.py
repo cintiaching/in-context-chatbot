@@ -42,13 +42,13 @@ selected_doc = st.selectbox(
 if selected_doc == "Staff Handbook":
     staff_handbook_chatbot = StaffHandbookChatbot(
         doc_path="data/Hong Kong Staff Handbook_2023 11 01 (Part A B EN)_2023 12 01_Clean.docx",
-        model_name=selected_model,
+        model_name=LLMs(selected_model),
     )
     qa_chain = staff_handbook_chatbot.qa_chain()
 elif selected_doc == "20 Questions in Staff Q&A":
     staff_qa_chatbot = StaffQAChatbot(
         doc_path="data/New Staff Handbook Q&A.docx",
-        model_name=selected_model,
+        model_name=LLMs(selected_model),
     )
     qa_chain = staff_qa_chatbot.qa_chain()
 elif selected_doc == "Upload Your Document":
@@ -63,7 +63,7 @@ elif selected_doc == "Upload Your Document":
 
         custom_doc_chatbot = GeneralChatbot(
             doc_path=str(tmp_file_path),
-            model_name=selected_model,
+            model_name=LLMs(selected_model),
         )
         qa_chain = custom_doc_chatbot.qa_chain()
 

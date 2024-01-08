@@ -28,7 +28,7 @@ class StaffQAChatbot(DocumentChatbot):
     def get_vectorstore(self):
         # using the fastest embedding model for demo
         config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
-        embeddings = EmbeddingFactory.create_embedding(config.model_name)
+        embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         vectorstore = Chroma(
             collection_name="q_and_a",
             embedding_function=embeddings,
