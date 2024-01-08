@@ -2,7 +2,9 @@ import streamlit as st
 import tempfile
 import pathlib
 import time
+from enum import Enum
 
+from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
 from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
 from chatbots.staff_handbook.staff_handbook import StaffHandbookChatbot
 from chatbots.general_document import GeneralChatbot
@@ -26,37 +28,30 @@ st.text("👋 Welcome to the Q&A chatbot! \n"
 )
 
 # select model
-model_option = st.selectbox(
+selected_model = st.selectbox(
     "Model",
-    ("GPT 3.5", "LLaMa2 13B")
+    (LLMs.GPT_3_PT_5_TURBO.value, LLMs.LLAMA2_13B.value)
 )
 
-if model_option == "GPT 3.5":
-    model_name = "openai"
-elif model_option == "LLaMa2 13B":
-    model_name = "llama2_13b"
-else:
-    model_name = None
-
 # select document
-doc_option = st.selectbox(
+selected_doc = st.selectbox(
     "Document",
     ("Staff Handbook", "20 Questions in Staff Q&A", "Upload Your Document")
 )
 
-if doc_option == "Staff Handbook":
+if selected_doc == "Staff Handbook":
     staff_handbook_chatbot = StaffHandbookChatbot(
         doc_path="data/Hong Kong Staff Handbook_2023 11 01 (Part A B EN)_2023 12 01_Clean.docx",
-        model_name=model_name,
+        model_name=selected_model,
     )
     qa_chain = staff_handbook_chatbot.qa_chain()
-elif doc_option == "20 Questions in Staff Q&A":
+elif selected_doc == "20 Questions in Staff Q&A":
     staff_qa_chatbot = StaffQAChatbot(
         doc_path="data/New Staff Handbook Q&A.docx",
-        model_name=model_name,
+        model_name=selected_model,
     )
     qa_chain = staff_qa_chatbot.qa_chain()
-elif doc_option == "Upload Your Document":
+elif selected_doc == "Upload Your Document":
     # upload option appears
     uploaded_file = st.file_uploader("Upload a docx/pdf file")
     if uploaded_file is not None:
@@ -68,12 +63,12 @@ elif doc_option == "Upload Your Document":
 
         custom_doc_chatbot = GeneralChatbot(
             doc_path=str(tmp_file_path),
-            model_name=model_name,
+            model_name=selected_model,
         )
         qa_chain = custom_doc_chatbot.qa_chain()
 
 # chatbot interface
-if model_option is not None and doc_option is not None:
+if selected_model is not None and selected_doc is not None:
     st.text("----------------------------------------------------------------------------------")
     if st.button("Clear History 🧹", type="primary"):
         st.session_state.messages = []

@@ -5,7 +5,7 @@ from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, Embeddi
 
 
 class GeneralChatbot(DocumentChatbot):
-    def __init__(self, doc_path: str, chunk_size=2000, chunk_overlap=100):
+    def __init__(self, doc_path: str, model_name: str, chunk_size=2000, chunk_overlap=100):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         super().__init__(doc_path)

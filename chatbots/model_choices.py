@@ -30,7 +30,7 @@ class LLMFactory:
     def initiate_llm(config: LLMConfig):
         callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
         # Add more cases if needed for different llms
-        if config.model_name == LLMs.LLAMA2_13B:
+        if config.model_name == LLMs.LLAMA2_13B.value:
             if config.model_path is None:
                 config.model_path = LLAMA2_13B_MODEL_PATH
             if config.model_kwarg is None:
@@ -46,7 +46,7 @@ class LLMFactory:
                 callback_manager=callback_manager,
                 **config.model_kwarg,
             )
-        elif config.model_name == LLMs.GPT_3_PT_5_TURBO:
+        elif config.model_name == LLMs.GPT_3_PT_5_TURBO.value:
             if config.model_kwarg is None:
                 # use default config
                 config.model_kwarg = {
@@ -54,13 +54,13 @@ class LLMFactory:
                     "max_tokens": 256,
                 }
             return AzureChatOpenAI(
-                model_name=config.model_name.value,
+                model_name=config.model_name,
                 callback_manager=callback_manager,
                 deployment_name=os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME", None),
                 **config.model_kwarg,
             )
         else:
-            ValueError(f"Invalid LLM config with model name '{config.model_name.value}'")
+            ValueError(f"Invalid LLM config with model name '{config.model_name}'")
 
 
 class TokenCounter:
