@@ -2,9 +2,8 @@ import streamlit as st
 import tempfile
 import pathlib
 import time
-from enum import Enum
 
-from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
+from chatbots.model_choices import LLMs
 from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
 from chatbots.staff_handbook.staff_handbook import StaffHandbookChatbot
 from chatbots.general_document import GeneralChatbot

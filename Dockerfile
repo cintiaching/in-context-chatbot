@@ -11,7 +11,7 @@ COPY requirements/requirements-document-chatbot.txt .
 RUN pip install --no-cache-dir -r requirements-document-chatbot.txt
 
 # Copy the app files to the container
-COPY demo_chatbot_app.py .
+COPY app.py .
 COPY chatbots /app/document_chatbot
 
 # Expose the port on which the Streamlit app will run
