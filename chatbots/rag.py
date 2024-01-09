@@ -38,7 +38,10 @@ class DocumentChatbot(ABC):
         return docs
 
     def get_prompt(self):
-        if self.prompt_msg is None:
+        if self.prompt_msg:
+            prompt = PromptTemplate.from_template(self.prompt_msg)
+        else:
+            # use default prompt
             if self.model_name == LLMs.LLAMA2_13B:
                 prompt = PromptTemplate.from_template(
                     "You are an assistant for question-answering tasks. "
@@ -55,8 +58,14 @@ class DocumentChatbot(ABC):
                     "Plz use exact wording from context that is relevant, and give details"
                     "\nQuestion: {question} \nContext: {context} "
                 )
-        else:
-            prompt = PromptTemplate.from_template(self.prompt_msg)
+            else:
+                prompt = PromptTemplate.from_template(
+                    "You are an assistant for question-answering tasks. "
+                    "Use the following pieces of retrieved context to answer the question. "
+                    "If you don't know the answer, just say that you don't know. don't try to make up an answer"
+                    "try to use exact wording from context that is relevant, Keep the answer concise but give details"
+                    "\nQuestion: {question} \nContext: {context} "
+                )
         return prompt
 
     def qa_chain(self):
