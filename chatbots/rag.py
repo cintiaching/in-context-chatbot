@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from langchain.document_loaders import UnstructuredWordDocumentLoader
 
 from langchain.prompts import PromptTemplate
@@ -76,11 +76,14 @@ class DocumentChatbot(ABC):
         )
         return chain
 
+    @abstractmethod
     def get_splits(self):
         raise NotImplementedError
 
+    @abstractmethod
     def get_vectorstore(self):
         raise NotImplementedError
 
+    @abstractmethod
     def get_retriever(self):
         raise NotImplementedError
