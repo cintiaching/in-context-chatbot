@@ -1,9 +1,9 @@
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
 from chromadb.errors import InvalidDimensionException
 
 from document_chatbot.rag import DocumentChatbot
+from document_chatbot.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 class StaffHandbookChatbot(DocumentChatbot):
@@ -14,8 +14,8 @@ class StaffHandbookChatbot(DocumentChatbot):
 
     def get_vectorstore(self):
         # using the fastest embedding model for demo
-        embeddings_model_name = "sentence-transformers/all-MiniLM-L6-v2"
-        embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
+        config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
+        embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         try:
             vectorstore = Chroma.from_documents(self.splits, embeddings)
         except InvalidDimensionException:
