@@ -1,11 +1,12 @@
 from langchain.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
 from chatbots.rag import DocumentChatbot
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.model_choices import LLMs
 
 
 class GeneralChatbot(DocumentChatbot):
-    def __init__(self, doc_path: str, model_name: str, chunk_size=2000, chunk_overlap=100):
+    def __init__(self, doc_path: str, model_name: LLMs, chunk_size=2000, chunk_overlap=100):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         super().__init__(model_name, doc_path)
@@ -17,8 +18,8 @@ class GeneralChatbot(DocumentChatbot):
 
     def get_vectorstore(self):
         # using the fastest embedding model for demo
-        embeddings_model_name = "sentence-transformers/all-MiniLM-L6-v2"
-        embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
+        config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
+        embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         vectorstore = Chroma.from_documents(self.splits, embeddings)
         return vectorstore
 

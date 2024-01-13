@@ -11,11 +11,11 @@ COPY requirements/requirements-document-chatbot.txt .
 RUN pip install --no-cache-dir -r requirements-document-chatbot.txt
 
 # Copy the app files to the container
-COPY document_chatbot_app.py .
-COPY chatbots /app/document_chatbot
+COPY app.py .
+COPY chatbots /app/chatbots
 
 # Expose the port on which the Streamlit app will run
 EXPOSE 8501
 
 # Set the default command to run the Streamlit app
-CMD ["streamlit", "run", "document_chatbot_app.py"]
+CMD ["streamlit", "run", "app.py"]
