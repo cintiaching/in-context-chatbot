@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 
-from document_chatbot.staff_q_and_a.staff_q_and_a import StaffQAChatbot
+from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
 
 from dotenv import load_dotenv
 

@@ -1,6 +1,6 @@
 from langchain.vectorstores import Chroma
-from document_chatbot.rag import DocumentChatbot
-from document_chatbot.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.rag import DocumentChatbot
+from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 class StaffQAChatbot(DocumentChatbot):

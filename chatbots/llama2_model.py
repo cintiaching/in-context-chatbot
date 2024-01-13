@@ -2,7 +2,7 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.llms import LlamaCpp
 
-from document_chatbot.utils import LLAMA2_13B_MODEL_PATH
+from chatbots.utils import LLAMA2_13B_MODEL_PATH
 
 
 def init_llama2_13b_llm(

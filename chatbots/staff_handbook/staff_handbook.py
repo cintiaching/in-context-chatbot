@@ -2,8 +2,8 @@ from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from chromadb.errors import InvalidDimensionException
 
-from document_chatbot.rag import DocumentChatbot
-from document_chatbot.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.rag import DocumentChatbot
+from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 class StaffHandbookChatbot(DocumentChatbot):

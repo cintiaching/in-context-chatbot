@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from document_chatbot.llama2_model import init_llama2_13b_llm
-from document_chatbot.openai_model import init_openai_model
+from chatbots.llama2_model import init_llama2_13b_llm
+from chatbots.openai_model import init_openai_model
 from langchain.document_loaders import UnstructuredWordDocumentLoader
 
 from langchain.prompts import PromptTemplate
