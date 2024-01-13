@@ -45,5 +45,36 @@ flowchart LR
     Query --- I
     LLM --> F([Generate Answer])
 ```
+
 ## Usage
-Run `streamlit run document_chatbot_app.py`, a local Streamlit server will spin up and the app will open in a new tab in the default web browser.
+
+### Run Locally 
+
+To install the necessary dependencies, run the following command:
+```shell
+pip install -r requirements/requirements-document-chatbot.txt
+```
+
+### Models
+
+Currently supported models:
+- Azure OpenAI
+  - set up .env file with API information
+      ```
+        AZURE_OPENAI_ENDPOINT=...
+        OPENAI_API_TYPE=...
+        OPENAI_API_KEY=...
+        OPENAI_API_VERSION=...
+        AZURE_OPENAI_DEPLOYMENT_NAME=...
+    ```
+- LLama2 13B
+  - Only support local run now, you will need to download the local model (`llama-2-13b-chat.Q5_K_M.gguf`) from [Hugging Face](https://huggingface.co/TheBloke/Llama-2-13B-chat-GGUF)
+  - Once downloaded, place the models in the `models/` directory in the project root.
+
+### Chatbot Interface
+To run the application locally, execute the following command:
+```shell
+streamlit run app.py
+```
+A local Streamlit server will spin up and the app will open in a new tab in the default web browser.
+
