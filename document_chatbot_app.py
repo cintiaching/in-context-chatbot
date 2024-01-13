@@ -1,9 +1,13 @@
+import streamlit as st
 import tempfile
 import pathlib
-import streamlit as st
-from chatbots.llama2_model import init_llama2_13b_llm
-from chatbots.openai_model import init_openai_model, TokenCounter
-from chatbots.rag import init_qa_chain, init_vectorstore
+import time
+
+from chatbots.model_choices import LLMs
+from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
+from chatbots.staff_handbook.staff_handbook import StaffHandbookChatbot
+from chatbots.general_document import GeneralChatbot
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -12,68 +16,89 @@ load_dotenv()
 
 def generate_response(input_text):
     response = qa_chain.run(input_text)
-    st.info(response)
     return response
 
 
-st.title("Document Chatbot")
-st.text("The Document Chatbot using Llama2 13B or gpt-3.5-turbo.\n👈 Please select a model and upload a docx/pdf files.")
-
-# keep track of token used
-token_counter = TokenCounter()
+st.title("Contextual Chatbot 💡")
+st.text("👋 Welcome to the Q&A chatbot! \n"
+        "📚 Just input your document, and our chatbot will provide insightful answers, \n"
+        "explanations, and assistance \n"
+        "😊 Please select a model and select/upload a document"
+)
 
 # select model
-with st.sidebar:
-    option = st.selectbox(
-        "Model",
-        ("Llama2 13B", "gpt-3.5-turbo")
+selected_model = st.selectbox(
+    "Model",
+    (LLMs.GPT_3_PT_5_TURBO.value, LLMs.LLAMA2_13B.value)
+)
+
+# select document
+selected_doc = st.selectbox(
+    "Document",
+    ("Staff Handbook", "20 Questions in Staff Q&A", "Upload Your Document")
+)
+
+if selected_doc == "Staff Handbook":
+    staff_handbook_chatbot = StaffHandbookChatbot(
+        doc_path="data/Hong Kong Staff Handbook_2023 11 01 (Part A B EN)_2023 12 01_Clean.docx",
+        model_name=LLMs(selected_model),
     )
-
-    if option == "gpt-3.5-turbo":
-        llm = init_openai_model()
-
-    elif option == "Llama2 13B":
-        llm = init_llama2_13b_llm()
-
-    # upload file
-    uploaded_file = st.file_uploader("Upload a docx/pdf files as the context of the chatbot:")
+    qa_chain = staff_handbook_chatbot.qa_chain()
+elif selected_doc == "20 Questions in Staff Q&A":
+    staff_qa_chatbot = StaffQAChatbot(
+        doc_path="data/New Staff Handbook Q&A.docx",
+        model_name=LLMs(selected_model),
+    )
+    qa_chain = staff_qa_chatbot.qa_chain()
+elif selected_doc == "Upload Your Document":
+    # upload option appears
+    uploaded_file = st.file_uploader("Upload a docx/pdf file")
     if uploaded_file is not None:
+        # loader from langchain requires path as input
         tmp_location = tempfile.TemporaryDirectory()
         tmp_file_path = pathlib.Path(tmp_location.name) / uploaded_file.name
         with open(tmp_file_path, 'wb') as output_temporary_file:
             output_temporary_file.write(uploaded_file.read())
 
-        DOCUMENT_PATH = tmp_location
-        if uploaded_file.name.endswith("pdf"):
-            doc_type = "pdf"
-        elif uploaded_file.name.endswith("docx"):
-            doc_type = "docx"
-        else:
-            raise ValueError(f"The format of uploaded file is not supported")
-
-        vectorstore = init_vectorstore(
-            str(tmp_file_path), chunk_size=500, chunk_overlap=20, doc_type=doc_type,
+        custom_doc_chatbot = GeneralChatbot(
+            doc_path=str(tmp_file_path),
+            model_name=LLMs(selected_model),
         )
-        qa_chain = init_qa_chain(
-            llm,
-            vectorstore,
-            prompt=None,
-        )
+        qa_chain = custom_doc_chatbot.qa_chain()
 
-with st.form("my_form"):
-    text = st.text_area("Ask a question:", "")
-    input_token = llm.get_num_tokens(text)
-    token_counter.add(input_token)
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        response = generate_response(text)
-        output_token = llm.get_num_tokens(response)
-        token_counter.add(output_token)
+# chatbot interface
+if selected_model is not None and selected_doc is not None:
+    st.text("----------------------------------------------------------------------------------")
+    if st.button("Clear History 🧹", type="primary"):
+        st.session_state.messages = []
+    # Initialize chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-        with st.sidebar:
-            st.divider()
-            st.text(
-                f"Token used for input: {input_token}\n"
-                f"Token used for output: {output_token}\n"
-                f"Total Token used: {token_counter.total_token_used()}\n"
-            )
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Accept user input
+    if prompt := st.chat_input("What is this document about?"):
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        # Display user message in chat message container
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Display assistant response in chat message container
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+            assistant_response = generate_response(prompt)
+            # Simulate stream of response with milliseconds delay
+            for chunk in assistant_response.split():
+                full_response += chunk + " "
+                time.sleep(0.05)
+                # Add a blinking cursor to simulate typing
+                message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(full_response)
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
