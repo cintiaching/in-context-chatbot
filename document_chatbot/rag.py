@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from document_chatbot.llama2_model import init_llama2_13b_llm
 from document_chatbot.openai_model import init_openai_model
 from langchain.document_loaders import UnstructuredWordDocumentLoader
@@ -73,11 +73,14 @@ class DocumentChatbot(ABC):
         )
         return chain
 
+    @abstractmethod
     def get_splits(self):
         raise NotImplementedError
 
+    @abstractmethod
     def get_vectorstore(self):
         raise NotImplementedError
 
+    @abstractmethod
     def get_retriever(self):
         raise NotImplementedError
