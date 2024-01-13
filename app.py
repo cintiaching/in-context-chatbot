@@ -4,7 +4,7 @@ import pathlib
 import time
 
 from chatbots.model_choices import LLMs
-from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
+from chatbots.hr_faq.hr_faq import HRFAQChatbot
 from chatbots.staff_handbook.staff_handbook import StaffHandbookChatbot
 from chatbots.general_document import GeneralChatbot
 
@@ -45,7 +45,7 @@ if selected_doc == "Staff Handbook":
     )
     qa_chain = staff_handbook_chatbot.qa_chain()
 elif selected_doc == "20 Questions in Staff Q&A":
-    staff_qa_chatbot = StaffQAChatbot(
+    staff_qa_chatbot = HRFAQChatbot(
         doc_path="data/New Staff Handbook Q&A.docx",
         model_name=LLMs(selected_model),
     )

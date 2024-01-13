@@ -3,7 +3,7 @@ from chatbots.rag import DocumentChatbot
 from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
-class StaffQAChatbot(DocumentChatbot):
+class HRFAQChatbot(DocumentChatbot):
     def get_splits(self):
         document = self.docs[0].page_content
         result = {}
@@ -30,7 +30,7 @@ class StaffQAChatbot(DocumentChatbot):
         config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
         embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         vectorstore = Chroma(
-            collection_name="q_and_a",
+            collection_name="hr_faq",
             embedding_function=embeddings,
         )
         answer, metadatas = self.splits
