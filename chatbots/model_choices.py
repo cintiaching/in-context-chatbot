@@ -3,6 +3,7 @@ from enum import Enum
 from dotenv import load_dotenv
 
 from langchain.llms import LlamaCpp
+from langchain.llms import Ollama
 from langchain.chat_models import AzureChatOpenAI
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
@@ -16,6 +17,7 @@ load_dotenv()
 class LLMs(Enum):
     LLAMA2_13B = "llama-2-13b-chat.Q5_K_M"
     GPT_3_PT_5_TURBO = "gpt-3.5-turbo"
+    MISTRAL_7B = "mistral"
 
 
 class LLMConfig:
@@ -57,6 +59,12 @@ class LLMFactory:
                 model_name=config.model_name.value,
                 callback_manager=callback_manager,
                 deployment_name=os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME", None),
+                **config.model_kwarg,
+            )
+        elif config.model_name == LLMs.MISTRAL_7B:
+            return Ollama(
+                model=config.model_name.value,
+                callback_manager=callback_manager,
                 **config.model_kwarg,
             )
         else:
