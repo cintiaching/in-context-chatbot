@@ -29,7 +29,7 @@ st.text("👋 Welcome to the Q&A chatbot! \n"
 # select model
 selected_model = st.selectbox(
     "Model",
-    (LLMs.GPT_3_PT_5_TURBO.value, LLMs.LLAMA2_13B.value)
+    (LLMs.GPT_3_PT_5_TURBO.value, LLMs.LLAMA2_13B.value, LLMs.MISTRAL_7B.value)
 )
 
 # select document
