@@ -14,9 +14,9 @@ Retrieval Augmented Generation (RAG) is used. Proposed algorithm are shown in th
         }
     }
 }%%
-flowchart LR
+graph LR
     subgraph Ingestion Stage
-    J([Input Document#40;s#41;]) --> K[Data Cleansing]
+    J(["Input Document#40;s#41;"]) --> K[Data Cleansing]
     K --> M[Chunking]
     M --> N[Embedding Model]
     M --> O[Metadata of the Chunks]
@@ -33,7 +33,7 @@ flowchart LR
 
     Retriever --> D[Post-processing + Reranking]
     D --> E(Retrieved Context)
-    E --> LLM[LLM#40;s#41;]
+    E --> LLM["LLM#40;s#41;"]
 
     Query --> G[(History Queries)]
     subgraph Chatbot Memory
