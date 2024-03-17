@@ -1,8 +1,9 @@
+import os
+
 import pandas as pd
 from datasets import Dataset
 
 from langchain.document_loaders import UnstructuredWordDocumentLoader
-from langchain.llms import Ollama
 
 from ragas.metrics import (
     answer_relevancy,
@@ -11,9 +12,9 @@ from ragas.metrics import (
     context_precision,
 )
 from ragas import evaluate
-from ragas.llms import LangchainLLM
+from ragas.llms.base import LangchainLLMWrapper
 
-from chatbots.model_choices import LLMs
+from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
 from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
@@ -50,10 +51,9 @@ if __name__ == "__main__":
     # use the answer as context and ground truths
     eval_dataset = []
     for a, q in zip(answers, questions):
-        d = {"question": q, "answer": a, "contexts": [a], "ground_truths": [a]}
+        d = {"question": q, "answer": a, "contexts": [a], "ground_truth": a}
         eval_dataset.append(d)
     eval_dataset_df = pd.DataFrame(eval_dataset)
-    print(eval_dataset_df.head())
 
     # test eval using ragas
     # define metrics
@@ -64,7 +64,8 @@ if __name__ == "__main__":
         context_recall,
     ]
     # set up the llm and embedding model for evaluation
-    llm_wrapper = LangchainLLM(llm=Ollama(model=LLMs.MISTRAL_7B.value))
+    config = LLMConfig(model_name=LLMs.MISTRAL_7B)
+    llm_wrapper = LangchainLLMWrapper(LLMFactory.initiate_llm(config))
     config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
     embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
     for m in metrics:
@@ -74,17 +75,11 @@ if __name__ == "__main__":
 
     # make the DatasetDict
     eval_dataset = Dataset.from_pandas(eval_dataset_df)
-    print(eval_dataset)
     # evaluate
     result = evaluate(
         eval_dataset,
-        metrics=[
-            context_precision,
-            faithfulness,
-            answer_relevancy,
-            context_recall,
-        ],
+        metrics=metrics,
     )
-    print(result)
     df = result.to_pandas()
-    print(df.head())
+    os.makedirs("../artifact/", exist_ok=True)
+    df.to_csv("../artifact/test_eval.csv", index=False)
