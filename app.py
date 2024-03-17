@@ -15,7 +15,7 @@ load_dotenv()
 
 
 def generate_response(input_text):
-    response = qa_chain.run(input_text)
+    response = qa_chain.invoke(input_text)
     return response
 
 
@@ -93,12 +93,21 @@ if selected_model is not None and selected_doc is not None:
             message_placeholder = st.empty()
             full_response = ""
             assistant_response = generate_response(prompt)
+            result = assistant_response["result"]
+            source_documents = assistant_response["source_documents"]
             # Simulate stream of response with milliseconds delay
-            for chunk in assistant_response.split():
+            print(assistant_response)
+            for chunk in result.split():
                 full_response += chunk + " "
                 time.sleep(0.05)
                 # Add a blinking cursor to simulate typing
                 message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
+        # show retrieved contexts
+        with st.sidebar:
+            st.header("Retrieved Contexts (Ranked by Relevancy)")
+            for i, sd in enumerate(source_documents):
+                st.markdown(str(i + 1) + ".")
+                st.markdown(sd.page_content)
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": full_response})
