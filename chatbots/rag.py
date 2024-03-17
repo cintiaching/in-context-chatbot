@@ -73,6 +73,7 @@ class DocumentChatbot(ABC):
             self.llm,
             retriever=self.retriever,
             chain_type_kwargs={"prompt": self.prompt},
+            return_source_documents=True,
         )
         return chain
 
