@@ -6,11 +6,12 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
 from langchain.document_loaders import PyPDFium2Loader
-from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
+from chatbots.llm.llm import LLMs, LLMConfig, LLMFactory
 
 
 class DocumentChatbot(ABC):
-    def __init__(self, model_name: LLMs, doc_path: str, collection_name: str, persist_directory: str, prompt_msg: str = None):
+    def __init__(self, model_name: LLMs, doc_path: str, collection_name: str, persist_directory: str,
+                 prompt_msg: str = None):
         self.model_name = model_name
         self.doc_path = doc_path
         self.prompt_msg = prompt_msg

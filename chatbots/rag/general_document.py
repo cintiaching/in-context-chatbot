@@ -1,15 +1,16 @@
 from langchain.vectorstores import Chroma
-from chatbots.rag import DocumentChatbot
+from chatbots.rag.rag import DocumentChatbot
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
-from chatbots.model_choices import LLMs
+from chatbots.llm.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.llm.llm import LLMs
 
 
 class GeneralChatbot(DocumentChatbot):
-    def __init__(self, doc_path: str, model_name: LLMs, chunk_size=2000, chunk_overlap=100):
+    def __init__(self, doc_path: str, model_name: LLMs, collection_name, persist_directory, chunk_size=2000,
+                 chunk_overlap=100):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
-        super().__init__(model_name, doc_path)
+        super().__init__(model_name, doc_path, collection_name, persist_directory)
 
     def get_splits(self):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap)

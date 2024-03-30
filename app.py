@@ -3,10 +3,10 @@ import tempfile
 import pathlib
 import time
 
-from chatbots.model_choices import LLMs
-from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
-from chatbots.staff_handbook.staff_handbook import StaffHandbookChatbot
-from chatbots.general_document import GeneralChatbot
+from chatbots.llm.llm import LLMs
+from chatbots.rag.staff_q_and_a import StaffQAChatbot
+from chatbots.rag.staff_handbook import StaffHandbookChatbot
+from chatbots.rag.general_document import GeneralChatbot
 
 from dotenv import load_dotenv
 
@@ -67,6 +67,8 @@ elif selected_doc == "Upload Your Document":
         custom_doc_chatbot = GeneralChatbot(
             doc_path=str(tmp_file_path),
             model_name=LLMs(selected_model),
+            collection_name=uploaded_file.name,
+            persist_directory=f"./data/{uploaded_file.name}_vectorstore"
         )
         qa_chain = custom_doc_chatbot.qa_chain()
 
