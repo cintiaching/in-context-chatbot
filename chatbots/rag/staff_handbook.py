@@ -17,10 +17,12 @@ class StaffHandbookChatbot(DocumentChatbot):
         config = EmbeddingConfig(EmbeddingModels.ALL_MINILM_L12_V2)
         embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         try:
-            vectorstore = Chroma.from_documents(self.splits, embeddings)
+            vectorstore = Chroma.from_documents(self.splits, embeddings, collection_name=self.collection_name,
+                                                persist_directory=self.persist_directory)
         except InvalidDimensionException:
             Chroma().delete_collection()
-            vectorstore = Chroma.from_documents(self.splits, embeddings)
+            vectorstore = Chroma.from_documents(self.splits, embeddings, collection_name=self.collection_name,
+                                                persist_directory=self.persist_directory)
         return vectorstore
 
     def get_retriever(self):

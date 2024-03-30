@@ -1,3 +1,4 @@
+import os
 from abc import ABC, abstractmethod
 from langchain.document_loaders import UnstructuredWordDocumentLoader
 
@@ -9,10 +10,13 @@ from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
 
 
 class DocumentChatbot(ABC):
-    def __init__(self, model_name: LLMs, doc_path: str, prompt_msg: str = None):
+    def __init__(self, model_name: LLMs, doc_path: str, collection_name: str, persist_directory: str, prompt_msg: str = None):
         self.model_name = model_name
         self.doc_path = doc_path
         self.prompt_msg = prompt_msg
+        self.collection_name = collection_name
+        self.persist_directory = persist_directory
+        os.makedirs(self.persist_directory, exist_ok=True)
         self.llm = self.get_llm()
         self.docs = self.load_document()
         self.prompt = self.get_prompt()
