@@ -1,6 +1,8 @@
-from langchain_community.embeddings import HuggingFaceInstructEmbeddings
-from langchain_community.embeddings import HuggingFaceBgeEmbeddings
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import (
+    HuggingFaceInstructEmbeddings,
+    HuggingFaceBgeEmbeddings,
+    HuggingFaceEmbeddings,
+)
 from enum import Enum
 
 

@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from datasets import Dataset
 
-from langchain.document_loaders import UnstructuredWordDocumentLoader
+from langchain_community.document_loaders import UnstructuredWordDocumentLoader
 
 from ragas.metrics import (
     answer_relevancy,

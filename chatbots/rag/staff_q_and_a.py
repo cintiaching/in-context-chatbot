@@ -1,4 +1,4 @@
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 from chatbots.rag.rag import DocumentChatbot
 from chatbots.llm.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 

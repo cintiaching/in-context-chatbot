@@ -1,11 +1,10 @@
 import os
 from abc import ABC, abstractmethod
-from langchain.document_loaders import UnstructuredWordDocumentLoader
+from langchain_community.document_loaders import UnstructuredWordDocumentLoader, PyPDFium2Loader
 
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
-from langchain.document_loaders import PyPDFium2Loader
 from chatbots.llm.llm import LLMs, LLMConfig, LLMFactory
 
 

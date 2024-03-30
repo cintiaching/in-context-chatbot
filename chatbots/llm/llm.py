@@ -2,9 +2,9 @@ import os
 from enum import Enum
 from dotenv import load_dotenv
 
-from langchain.llms import LlamaCpp
-from langchain.llms import Ollama
-from langchain.chat_models import AzureChatOpenAI
+from langchain_community.llms import LlamaCpp
+from langchain_community.llms import Ollama
+from langchain_openai import AzureChatOpenAI
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
