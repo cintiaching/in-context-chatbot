@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from datasets import Dataset
 
-from langchain.document_loaders import UnstructuredWordDocumentLoader
+from langchain_community.document_loaders import UnstructuredWordDocumentLoader
 
 from ragas.metrics import (
     answer_relevancy,
@@ -14,8 +14,8 @@ from ragas.metrics import (
 from ragas import evaluate
 from ragas.llms.base import LangchainLLMWrapper
 
-from chatbots.model_choices import LLMs, LLMConfig, LLMFactory
-from chatbots.embedding_choices import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.llm.llm import LLMs, LLMConfig, LLMFactory
+from chatbots.llm.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 def get_staff_q_and_a():

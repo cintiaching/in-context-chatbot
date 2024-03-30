@@ -3,10 +3,10 @@ import tempfile
 import pathlib
 import time
 
-from chatbots.model_choices import LLMs
-from chatbots.staff_q_and_a.staff_q_and_a import StaffQAChatbot
-from chatbots.staff_handbook.staff_handbook import StaffHandbookChatbot
-from chatbots.general_document import GeneralChatbot
+from chatbots.llm.llm import LLMs
+from chatbots.rag.staff_q_and_a import StaffQAChatbot
+from chatbots.rag.staff_handbook import StaffHandbookChatbot
+from chatbots.rag.general_document import GeneralChatbot
 
 from dotenv import load_dotenv
 
@@ -42,12 +42,16 @@ if selected_doc == "Staff Handbook":
     staff_handbook_chatbot = StaffHandbookChatbot(
         doc_path="data/Hong Kong Staff Handbook_2023 11 01 (Part A B EN)_2023 12 01_Clean.docx",
         model_name=LLMs(selected_model),
+        collection_name="staff_handbook",
+        persist_directory="./data/staff_handbook_vectorstore"
     )
     qa_chain = staff_handbook_chatbot.qa_chain()
 elif selected_doc == "20 Questions in Staff Q&A":
     staff_qa_chatbot = StaffQAChatbot(
         doc_path="data/New Staff Handbook Q&A.docx",
         model_name=LLMs(selected_model),
+        collection_name="staff_qa",
+        persist_directory="./data/staff_qa_vectorstore"
     )
     qa_chain = staff_qa_chatbot.qa_chain()
 elif selected_doc == "Upload Your Document":
@@ -63,6 +67,8 @@ elif selected_doc == "Upload Your Document":
         custom_doc_chatbot = GeneralChatbot(
             doc_path=str(tmp_file_path),
             model_name=LLMs(selected_model),
+            collection_name=uploaded_file.name,
+            persist_directory=f"./data/{uploaded_file.name}_vectorstore"
         )
         qa_chain = custom_doc_chatbot.qa_chain()
 
