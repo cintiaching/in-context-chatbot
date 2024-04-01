@@ -23,7 +23,3 @@ class GeneralChatbot(DocumentChatbot):
         embeddings = EmbeddingFactory.create_embedding(config.model_name, config.model_kwargs, config.encode_kwargs)
         vectorstore = Chroma.from_documents(self.splits, embeddings)
         return vectorstore
-
-    def get_retriever(self):
-        retriever = self.vectorstore.as_retriever()
-        return retriever

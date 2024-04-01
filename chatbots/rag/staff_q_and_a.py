@@ -36,7 +36,3 @@ class StaffQAChatbot(DocumentChatbot):
         answer, metadatas = self.splits
         vectorstore.add_texts(texts=answer, metadatas=metadatas)
         return vectorstore
-
-    def get_retriever(self):
-        retriever = self.vectorstore.as_retriever()
-        return retriever

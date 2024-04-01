@@ -24,7 +24,3 @@ class StaffHandbookChatbot(DocumentChatbot):
             vectorstore = Chroma.from_documents(self.splits, embeddings, collection_name=self.collection_name,
                                                 persist_directory=self.persist_directory)
         return vectorstore
-
-    def get_retriever(self):
-        retriever = self.vectorstore.as_retriever()
-        return retriever
