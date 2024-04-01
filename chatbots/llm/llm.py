@@ -71,6 +71,11 @@ class LLMFactory:
             ValueError(f"Invalid LLM config with model name '{config.model_name}'")
 
 
+def get_llm(model_name: LLMs):
+    config = LLMConfig(model_name=model_name)
+    return LLMFactory.initiate_llm(config)
+
+
 class TokenCounter:
     def __init__(self):
         self._count = 0
