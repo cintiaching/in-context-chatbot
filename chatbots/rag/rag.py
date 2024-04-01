@@ -1,27 +1,29 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
+from chatbots.llm.embedding_models import get_best_embedding_model
 from chatbots.llm.llm import LLMs, get_llm
 from chatbots.utils import load_document
 from chatbots.prompt import get_default_prompt
+from chatbots.vectorstore.chroma import Vectorstore
 
 
 class DocumentChatbot(ABC):
-    def __init__(self, model_name: LLMs, doc_path: str, collection_name: str, persist_directory: str,
+    def __init__(self, model_name: LLMs, doc_path: str, chatbot_name: str, vectorstore: Vectorstore = None,
                  prompt_msg: str = None):
         self.model_name = model_name
         self.doc_path = doc_path
         self.prompt_msg = prompt_msg
-        self.collection_name = collection_name
-        self.persist_directory = persist_directory
+        self.chatbot_name = chatbot_name
 
         self.llm = get_llm(model_name)
         self.docs = load_document(doc_path)
         self.prompt = self.get_prompt()
         self.splits = self.get_splits()
-        self.vectorstore = self.get_vectorstore()
+        self.vectorstore = vectorstore if vectorstore is not None else self.get_vectorstore()
         self.retriever = self.get_retriever()
 
     def get_prompt(self):
@@ -42,15 +44,17 @@ class DocumentChatbot(ABC):
         return chain
 
     def get_retriever(self):
-        retriever = self.vectorstore.as_retriever()
+        retriever = self.vectorstore.collection.as_retriever()
         return retriever
 
-    @abstractmethod
     def get_vectorstore(self):
-        raise NotImplementedError
+        vectorstore = Vectorstore(
+            collection_name=f"{self.chatbot_name}_vectorstore",
+            embedding_function=get_best_embedding_model(),
+        )
+        vectorstore.add_documents(self.splits)
+        return vectorstore
 
     @abstractmethod
-    def get_splits(self):
+    def get_splits(self) -> List[str]:
         raise NotImplementedError
-
-

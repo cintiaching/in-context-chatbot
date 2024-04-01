@@ -1,5 +1,5 @@
 import hashlib
-from typing import List
+from typing import List, Optional
 
 import chromadb
 from chromadb.config import Settings
@@ -30,13 +30,20 @@ class Vectorstore:
             collection_metadata={"hnsw:space": self.distance_function}
         )
 
-    def add_documents(self, documents: List[str], metadatas: List[dict], product_ids: List[str]):
-        for _documents, _metadatas, _product_ids in zip(chunk(documents), chunk(metadatas), chunk(product_ids)):
-            self.collection.add_texts(
-                texts=_documents,
-                metadatas=_metadatas,
-                ids=get_document_ids(_documents),  # items with existing IDs will not be inserted
-            )
+    def add_documents(self, documents: List[str], metadatas: Optional[List[dict]] = None) -> None:
+        if metadatas is not None:
+            for _documents, _metadatas in zip(chunk(documents), chunk(metadatas)):
+                self.collection.add_texts(
+                    texts=_documents,
+                    metadatas=_metadatas,
+                    ids=get_document_ids(_documents),  # items with existing IDs will not be inserted
+                )
+        else:
+            for _documents in chunk(documents):
+                self.collection.add_texts(
+                    texts=_documents,
+                    ids=get_document_ids(_documents),
+                )
 
 
 def chunk(lst, batch_size=100):
