@@ -3,7 +3,10 @@ from chatbots.rag.rag import DocumentChatbot
 from chatbots.llm.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
-class StaffQAChatbot(DocumentChatbot):
+class DocumentAChatbot(DocumentChatbot):
+    """
+    A Chatbot tailor-made for confidential Document A.
+    """
     def get_splits(self):
         document = self.docs[0].page_content
         result = {}

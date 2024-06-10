@@ -1,11 +1,13 @@
+import os
+
 import streamlit as st
 import tempfile
 import pathlib
 import time
 
 from chatbots.llm.llm import LLMs
-from chatbots.rag.staff_q_and_a import StaffQAChatbot
-from chatbots.rag.staff_handbook import StaffHandbookChatbot
+from chatbots.rag.document_a import DocumentAChatbot
+from chatbots.rag.document_b import DocumentBChatbot
 from chatbots.rag.general_document import GeneralChatbot
 
 from dotenv import load_dotenv
@@ -35,23 +37,23 @@ selected_model = st.selectbox(
 # select document
 selected_doc = st.selectbox(
     "Document",
-    ("Staff Handbook", "20 Questions in Staff Q&A", "Upload Your Document")
+    ("Document A", "Document B", "Upload Your Document")
 )
 
-if selected_doc == "Staff Handbook":
-    staff_handbook_chatbot = StaffHandbookChatbot(
-        doc_path="data/Hong Kong Staff Handbook_2023 11 01 (Part A B EN)_2023 12 01_Clean.docx",
+if selected_doc == "Document B":
+    document_b = DocumentBChatbot(
+        doc_path=os.environ.get("DOCUMENT_B_PATH"),
         model_name=LLMs(selected_model),
-        chatbot_name="staff_handbook",
+        chatbot_name="document_b",
     )
-    qa_chain = staff_handbook_chatbot.qa_chain()
-elif selected_doc == "20 Questions in Staff Q&A":
-    staff_qa_chatbot = StaffQAChatbot(
-        doc_path="data/New Staff Handbook Q&A.docx",
+    qa_chain = document_b.qa_chain()
+elif selected_doc == "Document A":
+    document_a = DocumentAChatbot(
+        doc_path=os.environ.get("DOCUMENT_A_PATH"),
         model_name=LLMs(selected_model),
-        chatbot_name="staff_qa",
+        chatbot_name="document_a",
     )
-    qa_chain = staff_qa_chatbot.qa_chain()
+    qa_chain = document_a.qa_chain()
 elif selected_doc == "Upload Your Document":
     # upload option appears
     uploaded_file = st.file_uploader("Upload a docx/pdf file")
