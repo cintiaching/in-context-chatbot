@@ -1,5 +1,5 @@
 from chatbots.rag.staff_q_and_a import StaffQAChatbot
-from chatbots.llm.llm import LLMs
+from chatbots.models.llm import LLMs
 
 print(f"""Model Choices: 1) {LLMs.GPT_3_PT_5_TURBO.value} 2) {LLMs.LLAMA2_13B.value} 3) {LLMs.MISTRAL_7B.value}""")
 choice = input(f"Select model: ")

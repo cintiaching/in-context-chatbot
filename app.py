@@ -5,7 +5,7 @@ import tempfile
 import pathlib
 import time
 
-from chatbots.llm.llm import LLMs
+from chatbots.models.llm import LLMs
 from chatbots.rag.document_a import DocumentAChatbot
 from chatbots.rag.document_b import DocumentBChatbot
 from chatbots.rag.general_document import GeneralChatbot

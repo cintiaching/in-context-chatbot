@@ -1,6 +1,6 @@
 from chatbots.rag.rag import DocumentChatbot
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chatbots.llm.llm import LLMs
+from chatbots.models.llm import LLMs
 
 
 class GeneralChatbot(DocumentChatbot):

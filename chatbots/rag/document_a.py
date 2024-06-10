@@ -1,6 +1,6 @@
 from langchain_community.vectorstores import Chroma
 from chatbots.rag.rag import DocumentChatbot
-from chatbots.llm.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.models.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 class DocumentAChatbot(DocumentChatbot):
