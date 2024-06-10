@@ -4,8 +4,8 @@ from typing import List
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
-from chatbots.llm.embedding_models import get_best_embedding_model
-from chatbots.llm.llm import LLMs, get_llm
+from chatbots.models.embedding_models import get_best_embedding_model
+from chatbots.models.llm import LLMs, get_llm
 from chatbots.utils import load_document
 from chatbots.prompt import get_default_prompt
 from chatbots.vectorstore.chroma import Vectorstore

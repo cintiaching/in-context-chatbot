@@ -14,8 +14,8 @@ from ragas.metrics import (
 from ragas import evaluate
 from ragas.llms.base import LangchainLLMWrapper
 
-from chatbots.llm.llm import LLMs, LLMConfig, LLMFactory
-from chatbots.llm.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
+from chatbots.models.llm import LLMs, LLMConfig, LLMFactory
+from chatbots.models.embedding_models import EmbeddingModels, EmbeddingConfig, EmbeddingFactory
 
 
 def get_staff_q_and_a():

@@ -1,4 +1,4 @@
-from chatbots.llm.llm import LLMs
+from chatbots.models.llm import LLMs
 from langchain.prompts import PromptTemplate
 
 
